@@ -1,5 +1,4 @@
 #pragma once
 
-void startAlarm();
+void ringAlarm();
 void stopAlarm();
-bool isAlarmRunning();

@@ -109,7 +109,7 @@ void loop()
             LCDPrint(downloadData, uploadData);
 
             if(downloadbytes > BANDWIDTH_LIMIT_IN_BYTES)
-                startAlarm();
+                ringAlarm();
         }
     }
     else
