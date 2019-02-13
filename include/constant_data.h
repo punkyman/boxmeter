@@ -11,3 +11,5 @@ const char* XML_DOWNLOAD_TAG = "CurrentDownload";
 const long GO_AS_BYTES = 1073741824;
 const float BYTES_TO_GO = 1073741824.f;
 const float BYTES_TO_MO = 1048576.f;
+
+const long BANDWIDTH_LIMIT_IN_BYTES = 1610612736;

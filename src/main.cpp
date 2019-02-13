@@ -2,11 +2,14 @@
 #include <LiquidCrystal.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <Tone32.h>
 
 #include "constant_data.h"
 
 LiquidCrystal lcd(22,23,5,18,19,21);
 String token;
+pthread_t thread = 0;
+bool ring = true;
 
 void LCDPrint(const char* line1, const char* line2)
 {
@@ -17,8 +20,29 @@ void LCDPrint(const char* line1, const char* line2)
     lcd.print(line2);
 }
 
+void* alarmThread(void* param)
+{
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    while(1)
+    {
+        tone(17, NOTE_A4, 1000);
+        tone(17, NOTE_A5, 1000);
+    }
+}
+
+void IRAM_ATTR handleButtonInterrupt() {
+    if(thread != 0)
+    {
+        pthread_cancel(thread);
+        thread = 0;
+    }
+}
+
 void setup()
 {
+    pinMode(KEY_BUILTIN, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(KEY_BUILTIN), handleButtonInterrupt, FALLING);
+
     Serial.begin(9600);
     lcd.begin(16, 2);
 
@@ -99,6 +123,9 @@ void loop()
                 sprintf(uploadData, "U : %.2f Mo", uploadbytes / BYTES_TO_MO);
 
             LCDPrint(downloadData, uploadData);
+
+            if(downloadbytes > BANDWIDTH_LIMIT_IN_BYTES)
+                pthread_create(&thread, NULL, alarmThread, NULL);
         }
     }
     else
