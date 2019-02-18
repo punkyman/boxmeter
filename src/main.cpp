@@ -76,21 +76,22 @@ void loop()
         else
         {    
             String longData;
-            long downloadbytes = 0;
-            long uploadbytes = 0;
+            unsigned long long downloadbytes = 0;
+            unsigned long long uploadbytes = 0;
+            char* end;
 
             if(stream->find(XML_UPLOAD_TAG))
             {
                 stream->read(); // removes '>'
                 longData = stream->readStringUntil('<');
-                uploadbytes = longData.toInt();
+                uploadbytes = strtoull(longData.c_str(), &end, 10);
             }
 
             if(stream->find(XML_DOWNLOAD_TAG))
             {
                 stream->read(); // removes '>'
                 longData = stream->readStringUntil('<');
-                downloadbytes = longData.toInt();
+                downloadbytes = strtoull(longData.c_str(), &end, 10);
             }
             
             char downloadData[17];
