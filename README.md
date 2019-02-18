@@ -2,7 +2,7 @@
 
 ![Picture of the circuit](circuit.jpg)
 
-Micro-controller program to display bandwdith usage of a Huawei e5186s-22a 4G box on a screen instead of having to go to the admin page
+Micro-controller program to display bandwdith usage of a Huawei e5186s-22a 4G box on a screen instead of having to go to the admin page. The circuit also integrate a buzzer to ring an alarm if the daily usage exceeds a limit. The button on the controller can then be used to stop the alarm.
 
 On hardware side, it is made of an ESP32S, which integrates a Wifi controller and enough ram to handle http requests and answers. Pinout available here :
 
